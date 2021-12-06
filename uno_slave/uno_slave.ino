@@ -13,6 +13,12 @@
 #define SLAVE_ADDR 9 
  
 #include <Wire.h> 
+
+typedef struct {
+  unsigned long rpm;
+  float temp;
+  float ph;
+} Reading;
  
 void setup() { 
   Wire.begin(SLAVE_ADDR);                // join i2c bus with address #8 
@@ -26,31 +32,14 @@ void loop() {
 }
  
 void onRequest() { 
-  unsigned long spin_value; // 4 bytes
-  float temp_value; // 4 bytes
-  float ph_value; // 4 bytes
-  spin_value = 31;
-  temp_value = 16;
-  ph_value = 10.0;
+  Reading reading = { .rpm = 31, .temp = 27.5, .ph = 8.9 };
 
-  byte data[12] = {0};
+  byte* data = (byte*)&reading;
 
-  *(unsigned long*)data = spin_value;
-  *(float*)(data + 4) = temp_value;
-  *(float*)(data + 8) = ph_value;
+  Serial.println("Data:");
+  Serial.println(reading.rpm);
+  Serial.println(reading.temp);
+  Serial.println(reading.ph);
 
-  /* unsigned long sv; */
-  /* float tv; */
-  /* float pv; */
-
-  /* sv = *(unsigned long*)data; */
-  /* tv = *(float*)(data + 4); */
-  /* pv = *(float*)(data + 8); */
-
-  /* Serial.println("Data:"); */
-  /* Serial.println(sv); */
-  /* Serial.println(tv); */
-  /* Serial.println(pv); */
-
-  Wire.write(data, 12);
+  Wire.write(data, sizeof(Reading));
 }

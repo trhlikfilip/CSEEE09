@@ -11,6 +11,12 @@
  
 #define I2C_SDA 21
 #define I2C_SCL 22
+
+typedef struct {
+  unsigned long rpm;
+  float temp;
+  float ph;
+} Reading;
  
 void setup() {
   Wire.begin (I2C_SDA, I2C_SCL);      // Configure the pins 
@@ -19,27 +25,22 @@ void setup() {
 }
 
 void loop() { 
-  Wire.requestFrom(SLAVE_ADDR, 12);
+  Wire.requestFrom(SLAVE_ADDR, sizeof(Reading));
 
-  unsigned long spin_value;
-  float temp_value;
-  float ph_value;
 
-  byte data[12] = {0};
+  byte data[sizeof(Reading)] = {0};
  
-  for (int i = 0; i < 12 && Wire.available(); i++) {
+  for (int i = 0; i < sizeof(Reading) && Wire.available(); i++) {
     byte d = Wire.read();
     data[i] = d;
   }
 
-  spin_value = *(unsigned long*)data;
-  temp_value = *(float*)(data + 4);
-  ph_value = *(float*)(data + 8);
+  Reading reading = *(Reading*)data;
 
   Serial.println("Data:");
-  Serial.println(spin_value);
-  Serial.println(temp_value);
-  Serial.println(ph_value);
+  Serial.println(reading.rpm);
+  Serial.println(reading.temp);
+  Serial.println(reading.ph);
 
  
   delay(500); 
