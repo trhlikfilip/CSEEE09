@@ -13,12 +13,7 @@
 #define SLAVE_ADDR 9 
  
 #include <Wire.h> 
-
-typedef struct {
-  unsigned long rpm;
-  float temp;
-  float ph;
-} Reading;
+#include "reading.h"
  
 void setup() { 
   Wire.begin(SLAVE_ADDR);                // join i2c bus with address #8 

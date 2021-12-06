@@ -1,33 +1,21 @@
 #include <Wire.h> 
- 
-// Define Slave I2C Address. All slaves must be allocated a  
-// unique number. 
+#include "reading.h"
  
 #define SLAVE_ADDR 9 
- 
-// Define the pins used for SDA and SCL. This is important because  
-// there is a problem with the TTGO and I2C will not work properly  
-// unless you do. 
  
 #define I2C_SDA 21
 #define I2C_SCL 22
 
-typedef struct {
-  unsigned long rpm;
-  float temp;
-  float ph;
-} Reading;
- 
 void setup() {
-  Wire.begin (I2C_SDA, I2C_SCL);      // Configure the pins 
-  Serial.begin(115200);                 // start serial for output
+  Wire.begin(I2C_SDA, I2C_SCL);
+  Serial.begin(115200);
   Serial.println("Starting...");
 }
 
 void loop() { 
   Wire.requestFrom(SLAVE_ADDR, sizeof(Reading));
 
-
+  // Initialize byte array for raw data to be read
   byte data[sizeof(Reading)] = {0};
  
   for (int i = 0; i < sizeof(Reading) && Wire.available(); i++) {
@@ -35,6 +23,7 @@ void loop() {
     data[i] = d;
   }
 
+  // Convert byte array to struct
   Reading reading = *(Reading*)data;
 
   Serial.println("Data:");
