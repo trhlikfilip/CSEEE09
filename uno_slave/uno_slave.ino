@@ -14,6 +14,8 @@
  
 #include <Wire.h> 
 #include "reading.h"
+
+Reading reading = { .rpm = 31, .temp = 27.5, .ph = 8.9 };
  
 void setup() { 
   Wire.begin(SLAVE_ADDR);                // join i2c bus with address #8 
@@ -27,14 +29,6 @@ void loop() {
 }
  
 void onRequest() { 
-  Reading reading = { .rpm = 31, .temp = 27.5, .ph = 8.9 };
-
   byte* data = (byte*)&reading;
-
-  Serial.println("Data:");
-  Serial.println(reading.rpm);
-  Serial.println(reading.temp);
-  Serial.println(reading.ph);
-
   Wire.write(data, sizeof(Reading));
 }
