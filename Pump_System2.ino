@@ -48,6 +48,7 @@ void loop() {
   else{
     aPH = average(avaregeVal,10);
     Serial.println(aPH);
+    pointer++;
     }
   // 6/12/21 Values
   // Acid (4) = 552
