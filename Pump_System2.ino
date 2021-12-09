@@ -46,6 +46,7 @@ void loop() {
     pointer++;
   }
   else{
+    avaregeVal[pointer] = TruePH;
     aPH = average(avaregeVal,10);
     Serial.println(aPH);
     pointer++;
