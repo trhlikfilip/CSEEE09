@@ -15,6 +15,8 @@
 #include <Wire.h> 
 #include "reading.h"
 #include "temperature.h"
+#include "ph.h"
+#include "spin.h"
 
 Reading reading = { .rpm = 31, .temp = 27.5, .ph = 8.9 };
  
@@ -30,8 +32,6 @@ void setup() {
 
 void loop() {
   delay(100);
-  /* reading.rpm = (float)random(1000)/10.0 + 400.0; */
-  /* reading.ph = (float)random(4000)/1000.0 + 5; */
   reading.rpm = spinLoop();
   reading.ph = phLoop();
   reading.temp = temperatureLoop();
