@@ -16,7 +16,7 @@
 #include "reading.h"
 #include "temperature.h"
 #include "ph.h"
-#include "spin.h"
+#include "stir.h"
 
 Reading reading = { .rpm = 31, .temp = 27.5, .ph = 8.9 };
  
@@ -26,13 +26,13 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
   temperatureSetup();
-  spinSetup();
+  stirSetup();
   phSetup();
-} 
+}
 
 void loop() {
   delay(100);
-  reading.rpm = spinLoop();
+  reading.rpm = stirLoop();
   reading.ph = phLoop();
   reading.temp = temperatureLoop();
 }

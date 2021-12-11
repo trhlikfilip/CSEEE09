@@ -1,21 +1,21 @@
 #include "ph.h"
 #include <Arduino.h>
 
-  const int AciPump = 10;
-  const int AlkPump = 11;
-  const int pHSensor = A1;
-  const int minPH = 3; // = 3
-  const int maxPH = 7;
-  const int idealPH = 5;
+const int AciPump = 10;
+const int AlkPump = 11;
+const int pHSensor = A1;
+const int minPH = 3; // = 3
+const int maxPH = 7;
+const int idealPH = 5;
 
-  float pHReading = 0;
-  int AciPumpS = 0;
-  int AlkPumpS = 0;
-  float TruePH = 0;
-  int counter = 0;
-  int pointer = 0;
-  float avaregeVal[30];
-  float aPH = 0;
+float pHReading = 0;
+int AciPumpS = 0;
+int AlkPumpS = 0;
+float TruePH = 0;
+int counter = 0;
+int pointer = 0;
+float avaregeVal[30];
+float aPH = 0;
 
 
 void phSetup() {
@@ -37,31 +37,29 @@ float average (float * array, int len)
 float phLoop() {
   pHReading = analogRead(pHSensor);
   TruePH = (1803 - 3 * pHReading) / 37;
-  
+
   if (pHReading < maxPH) {
     AciPumpS = !AciPumpS;
     analogWrite(AciPump,10);
-  }
-  else if (pHReading > minPH) {
+  } else if (pHReading > minPH) {
     AlkPumpS = !AlkPumpS;
     digitalWrite(AlkPump, LOW);
   }
   AciPumpS = LOW;
   AlkPumpS = LOW;
-  
-    if(pointer>29){
+
+  if (pointer>29) {
     pointer = 0;
   }
-  if(counter<30){
+  if (counter<30) {
     avaregeVal[pointer] = TruePH;
     counter++;
     pointer++;
-    return(TruePH)
-  }
-  else{
+    return(TruePH);
+  } else {
     avaregeVal[pointer] = TruePH;
     aPH = average(avaregeVal,30);
     pointer++;
     return (float) aPH;
-    }
+  }
 }
