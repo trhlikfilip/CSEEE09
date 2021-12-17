@@ -62,18 +62,4 @@ if(RPM<ll) {
     delay(100);
     //times = times+1;
     }
-
-   /*if(times<=10){
-   RPMtotal = RPMtotal + RPM;
-   RPMaverage = RPMtotal/times;
-   }
-   else (times>10);{
-    RPMaverage = 0;
-    RPMtotal = 0;
-    times = 0;
-   RPMtotal = RPMtotal + RPM;
-   RPMaverage = RPMtotal/times;
-   Serial.print("The value of RPMtotal is ");
-   Serial.println(RPMtotal);
-   }*/
    }
