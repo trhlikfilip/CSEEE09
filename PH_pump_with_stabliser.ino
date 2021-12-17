@@ -3,7 +3,7 @@
 const int AciPump = 10;
 const int AlkPump = 11;
 const int pHSensor = A0;
-const int minPH = 1; // = 3
+const int minPH = 1; 
 const int maxPH = 2;
 const int idealPH = 5;
 
@@ -37,6 +37,8 @@ void loop() {
   Serial.print("Raw pH =");
   Serial.print(pHReading );
   Serial.print("  pH Value:");
+  
+  //stabilizer
   if(pointer>29){
     pointer = 0;
   }
@@ -52,23 +54,16 @@ void loop() {
     Serial.print(aPH);
     pointer++;
     }
-  // 6/12/21 Values
-  // Acid (4) = 552
-  // Pure (7) = 515
-  // Alkaline (10) = 480
-  //TruepH = (1803-3[pH]) / 37
   //Map the speed of the pump
   int SpeedBase=map(TruePH,0,minPH,255,200);
   int SpeedAcid=map(TruePH,14,maxPH,255,200);
-  // if the sensor reading is greater than the threshold:
+  // pump activation
   if (TruePH > maxPH) {
-    //AciPumpS = !AciPumpS;
     analogWrite(AciPump,130);
     digitalWrite(AlkPump,LOW);
     Serial.println("  Activating Acid Pump");
   }
   else if (TruePH < minPH) {
-    //AlkPumpS = !AlkPumpS;
     analogWrite(AlkPump,130);
     digitalWrite(AciPump,LOW);
     Serial.println("  Activating Alkaline Pump");
@@ -76,8 +71,4 @@ void loop() {
   else{
     Serial.println("Normal");
   }
-  //delay(300);
-  //AciPumpS = LOW;
-  //AlkPumpS = LOW;
-  //delay(100);
 }
