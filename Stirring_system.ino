@@ -19,6 +19,7 @@ unsigned long duration;
 highlevel = pulseIn(6, HIGH);
 lowlevel = pulseIn(6, LOW);
 duration = highlevel+lowlevel;
+//measure RPM from duration
 RPM=30000000/duration;
 if( duration == 0 ) {RPM = 0;}
 Serial.print("the RPM is\n");
@@ -27,7 +28,7 @@ Serial.print(String(RPM) + "\n");
 
 unsigned long ll=Userinput-20;
 unsigned long  ul=Userinput+20;
-
+//output and control motor speed
 if(RPM<ll) {
     Val = Val+0.1;
     if(Val>255){ Val = 255;}
